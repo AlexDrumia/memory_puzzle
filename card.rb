@@ -1,5 +1,5 @@
 class Card
-	attr_accessor :face_up
+	attr_accessor :face_up, :face_value
 
 	def initialize
 		@face_value = 'G'
@@ -21,4 +21,12 @@ class Card
 	def reveal
 		@face_up = true
 	end
+
+	def ==(other)
+		@face_value == other.face_value
+	end
+
+	def to_s
+	end
 end
+
