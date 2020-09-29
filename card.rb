@@ -8,9 +8,9 @@ class Card
 
 	def display
 		if @face_up
-			puts @face_value
+			@face_value
 		else
-			puts ""
+			""
 		end
 	end
 
