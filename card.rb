@@ -1,8 +1,8 @@
 class Card
 	attr_accessor :face_up, :face_value
 
-	def initialize
-		@face_value = 'G'
+	def initialize(letter)
+		@face_value = letter
 		@face_up = true
 	end
 
@@ -10,7 +10,7 @@ class Card
 		if @face_up
 			@face_value
 		else
-			""
+			" "
 		end
 	end
 
