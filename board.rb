@@ -16,6 +16,10 @@ class Board
 		end
 	end
 
+	def won?
+		@grid.flatten.all? { |card| card.face_up }
+	end
+
 	def reveal
 		card = guessed_pos
 		if !card.face_up
