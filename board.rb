@@ -1,8 +1,12 @@
 load 'card.rb'
 
 class Board
+	attr_accessor :guessed_pos
+
 	def initialize
 		@grid = Array.new(4) { [] } 
+		populate
+		@guessed_pos = nil
 	end
 
 	def populate
@@ -22,20 +26,20 @@ class Board
 		@grid.flatten.all? { |card| card.face_up }
 	end
 
-	def reveal
-		card = guessed_pos
+	def reveal(pos)
+		card = self[pos]
 		if !card.face_up
 			card.reveal
 			card.face_value
 		end
 	end
 
-	def guessed_pos
-		row, col = prompt_for_pos
+	def [](pos)
+		row, col = pos
 		@grid[row][col]
 	end
 
-	def prompt_for_pos
+	def prompt
 		puts "Please enter the position of the card you'd like to flip (e.g., '2,3')"
 		gets.chomp.split(',').map(&:to_i)
 	end

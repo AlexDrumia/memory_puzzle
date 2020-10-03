@@ -3,7 +3,7 @@ class Card
 
 	def initialize(letter)
 		@face_value = letter
-		@face_up = true
+		@face_up = false
 	end
 
 	def display
