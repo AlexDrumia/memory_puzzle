@@ -11,9 +11,11 @@ class Board
 	end
 
 	def render
-		@grid.map do |row| 
-			puts row.map { |card| card.display }.join(' ')
+		puts '  0 1 2 3'
+		@grid.each.with_index do |row, i| 
+			puts i.to_s + ' ' + row.map { |card| card.display }.join(' ')
 		end
+		nil
 	end
 
 	def won?
@@ -29,8 +31,8 @@ class Board
 	end
 
 	def guessed_pos
-		pos = prompt_for_pos
-		@grid[pos.first][pos.last]
+		row, col = prompt_for_pos
+		@grid[row][col]
 	end
 
 	def prompt_for_pos
