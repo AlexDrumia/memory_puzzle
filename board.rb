@@ -1,17 +1,9 @@
 load 'card.rb'
 
 class Board
-	attr_accessor :guessed_pos
-
 	def initialize
 		@grid = Array.new(4) { [] } 
-		populate
-		@guessed_pos = nil
-	end
-
-	def populate
-		arr_of_cards = cards
-		@grid.map! { |row| arr_of_cards.slice!(0,4) }
+		populate_board
 	end
 
 	def render
@@ -45,6 +37,11 @@ class Board
 	end
 
 	private
+
+	def populate_board
+		arr_of_cards = cards
+		@grid.map! { |row| arr_of_cards.slice!(0,4) }
+	end
 	
 	def cards
 		full_shuffle.map { |letter| Card.new(letter) }
