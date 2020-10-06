@@ -4,3 +4,4 @@ class HumanPlayer
 		gets.chomp.split(',').map(&:to_i)
 	end
 end
+

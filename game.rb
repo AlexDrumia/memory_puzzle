@@ -1,10 +1,11 @@
 load 'board.rb'
 load 'human_player.rb'
+load 'computer_player.rb'
 
 class Game
 	def initialize
 		@board = Board.new
-		@player = HumanPlayer.new
+		choose_player
 		@previous_guess = nil
 	end
 
@@ -19,7 +20,8 @@ class Game
 
 	def make_guess(pos)
 		if @previous_guess == nil
-			@board.reveal(pos)
+			card_value = @board.reveal(pos)
+			@player.receive_revealed_card(pos, card_value)
 			@previous_guess = pos
 		else
 			prev_card, curr_card  = @board[@previous_guess], @board[pos]
@@ -44,5 +46,16 @@ class Game
 
 	def over
 		@board.won?
+	end
+
+	private
+
+	def choose_player
+		puts "Please choose between human player or computer player (h/c)."
+		if gets.chomp == "h"
+			@player = HumanPlayer.new
+		else
+			@player = ComputerPlayer.new
+		end
 	end
 end
