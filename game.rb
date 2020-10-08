@@ -20,25 +20,22 @@ class Game
 
 	def make_guess(pos)
 		if @previous_guess == nil
-			card_value = @board.reveal(pos)
-			@player.receive_revealed_card(pos, card_value)
+			curr_card_val = @board.reveal(pos)
+			@player.receive_revealed_card(pos, curr_card_val)
 			@previous_guess = pos
 		else
-			prev_card, curr_card  = @board[@previous_guess], @board[pos]
-			if curr_card == prev_card
-				[curr_card, prev_card].each(&:reveal)
-				system("clear")
-				@board.render
-				puts "It's a match!"
-				sleep(2)
-				@previous_guess = nil
+			if @board[@previous_guess] == @board[pos]
+				@board.reveal(pos)
+				@board.reveal(@previous_guess)
+				@player.receive_match(pos, @previous_guess)
+				match_render
 			else
-				[curr_card, prev_card].each(&:reveal)
-				system("clear")
-				@board.render	
-				puts "Try again."
-				sleep(3)
-				[curr_card, prev_card].each(&:hide)
+				curr_card_val = @board.reveal(pos)
+				@player.receive_revealed_card(pos, curr_card_val)
+				@board.reveal(@previous_guess)
+				nonmatch_render
+				@board[@previous_guess].hide
+				@board[pos].hide
 				@previous_guess = nil
 			end
 		end
@@ -57,5 +54,20 @@ class Game
 		else
 			@player = ComputerPlayer.new
 		end
+	end
+
+	def match_render
+		system("clear")
+		@board.render
+		puts "It's a match!"
+		sleep(2)
+		@previous_guess = nil
+	end
+
+	def nonmatch_render
+		system("clear")
+		@board.render	
+		puts "Try again."
+		sleep(3)
 	end
 end

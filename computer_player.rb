@@ -1,9 +1,10 @@
 class ComputerPlayer
-	attr_accessor :known_cards, :matched_cards
+	attr_accessor :known_cards, :matched_cards, :first_guess
 	
 	def initialize
 		@known_cards = {}
 		@matched_cards = []
+		@first_guess = nil
 	end
 
 	def receive_revealed_card(pos, card_value)
@@ -17,7 +18,8 @@ class ComputerPlayer
 	def prompt
 		@known_cards.size.even? ? first_guess : second_guess
 	end
-	
+
+
 	def first_guess
 		puts "Mr. SuperadvancedAI, please enter the 1st position of the card you'd like to flip (e.g., '2,3')"
 		sleep(2)
@@ -34,8 +36,25 @@ class ComputerPlayer
 	end
 
 	def guess_matching_card
-		@known_cards.key(matching_card)
+		@first_guess = @known_cards.key(matching_card)
 	end
+
+
+	def second_guess
+		puts "Mr. SuperadvancedAI, please enter the 2st position of the card you'd like to flip (e.g., '2,3')"
+		sleep(2)
+		first_guess_revealed_matched_location? ? guess_matched_location : guess_randomly
+	end
+
+	def first_guess_revealed_matching_card?
+		@known_cards.value?()
+	end
+
+	def guess_matched_location
+		@known_cards.key()
+	end
+
+	private
 
 	def guess_randomly
 		 known_positions = @known_cards.keys
@@ -43,17 +62,11 @@ class ComputerPlayer
 		 until !known_positions.include?(random)
 			 random = random_pos
 		 end
-		 random
+		 @first_guess = random
 	end
 
 	def random_pos
 		[rand(0..3), rand(0..3)]
-	end
-
-	def second_guess
-		puts "Mr. SuperadvancedAI, please enter the 2st position of the card you'd like to flip (e.g., '2,3')"
-		sleep(2)
-#		first_guess_matches_known_location ? guess_location : guess_randomly
 	end
 end
 
