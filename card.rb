@@ -7,11 +7,7 @@ class Card
 	end
 
 	def display
-		if @face_up
-			@face_value
-		else
-			" "
-		end
+		@face_up ?  @face_value : " "
 	end
 
 	def hide
@@ -25,8 +21,5 @@ class Card
 	def ==(other)
 		@face_value == other.face_value
 	end
-
-#	def to_s
-#	end
 end
 

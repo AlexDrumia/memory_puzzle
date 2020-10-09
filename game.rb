@@ -1,6 +1,6 @@
-load 'board.rb'
-load 'human_player.rb'
-load 'computer_player.rb'
+require_relative 'board.rb'
+require_relative 'human_player.rb'
+require_relative 'computer_player.rb'
 
 class Game
 	def initialize
@@ -71,3 +71,8 @@ class Game
 		sleep(3)
 	end
 end
+
+if __FILE__ == $PROGRAM_NAME
+	Game.new.play
+end
+

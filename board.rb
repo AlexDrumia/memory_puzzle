@@ -1,4 +1,4 @@
-load 'card.rb'
+require_relative 'card.rb'
 
 class Board
 	def initialize
