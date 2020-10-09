@@ -1,10 +1,9 @@
 class ComputerPlayer
-	attr_accessor :known_cards, :matched_cards, :first_guess
-	
 	def initialize
 		@known_cards = {}
-		@matched_cards = []
-		@first_guess = nil
+		@matched_cards_positions = []
+		@first_guess_var = nil
+		@first_guess = true 
 	end
 
 	def receive_revealed_card(pos, card_value)
@@ -12,11 +11,13 @@ class ComputerPlayer
 	end
 
 	def receive_match(pos1, pos2)
-		@matched_cards << [pos1, pos2]
+		@matched_cards_positions << pos1 << pos2
+		@known_cards.delete(pos1)
+		@known_cards.delete(pos2)
 	end
 
 	def prompt
-		@known_cards.size.even? ? first_guess : second_guess
+		@first_guess ? first_guess : second_guess
 	end
 
 
@@ -36,33 +37,37 @@ class ComputerPlayer
 	end
 
 	def guess_matching_card
-		@first_guess = @known_cards.key(matching_card)
+		@first_guess_var = @known_cards.key(matching_card)
 	end
 
 
 	def second_guess
-		puts "Mr. SuperadvancedAI, please enter the 2st position of the card you'd like to flip (e.g., '2,3')"
+		puts "Mr. SuperadvancedAI, please enter the 2nd position of the card you'd like to flip (e.g., '2,3')"
 		sleep(2)
-		first_guess_revealed_matched_location? ? guess_matched_location : guess_randomly
+		first_guess_revealed_matching_card? ? guess_matched_location : guess_randomly
 	end
 
 	def first_guess_revealed_matching_card?
-		@known_cards.value?()
+		cards_without_first_guess.has_value?(@known_cards[@first_guess_var])
+	end
+		
+	def cards_without_first_guess 
+		@known_cards.reject { |k, v| k == @first_guess_var }
 	end
 
 	def guess_matched_location
-		@known_cards.key()
+		cards_without_first_guess.key(@known_cards[@first_guess_var])
 	end
 
 	private
 
 	def guess_randomly
-		 known_positions = @known_cards.keys
+		 known_positions = @known_cards.keys + @matched_cards_positions
 		 random = random_pos
 		 until !known_positions.include?(random)
 			 random = random_pos
 		 end
-		 @first_guess = random
+		 @first_guess_var = random
 	end
 
 	def random_pos
